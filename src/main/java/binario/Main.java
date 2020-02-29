@@ -5,18 +5,16 @@
  */
 package binario;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author valdo
  */
 public class Main {
     public static void main(String args[]){
-        Individuo i1 = new Individuo(new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1});
-        Individuo i2 = new Individuo(31);
-                
-//        Individuo ind = new Individuo(new int[]{1,0,0,0,0,0});
-//        ind.calcularFitness();
-        
-        System.out.println(i1+"\n"+i2);
+        GeneticoV1 gen = new GeneticoV1(40,30,500, true);
+        gen.evolucionar();
+        System.out.println();
     }
 }

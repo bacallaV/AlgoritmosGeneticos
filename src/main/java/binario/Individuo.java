@@ -50,6 +50,10 @@ public class Individuo {
         }
     }
     
+    public static int compare(Individuo ind1, Individuo ind2){
+        return Long.compare(ind1.getFitness(), ind2.getFitness());
+    }
+    
     /* Getters y Setters */
 
     public int[] getGenotipo() {
@@ -80,13 +84,14 @@ public class Individuo {
 
     @Override
     public String toString() {
-        String aux = "Genotipo: ";
-        
-        for(int i=0; i<this.genotipo.length; i++){
-            aux+=String.valueOf(this.genotipo[i]);
-            if(i!=this.genotipo.length-1)
-                aux+=" - ";
-        }
+        String aux = "";
+//        String aux = "Genotipo: ";
+//        
+//        for(int i=0; i<this.genotipo.length; i++){
+//            aux+=String.valueOf(this.genotipo[i]);
+//            if(i!=this.genotipo.length-1)
+//                aux+=" - ";
+//        }
         aux+="\nFenotipo: "+this.fenotipo+"\nFitness: "+this.fitness+"\n";
         
         return aux;
