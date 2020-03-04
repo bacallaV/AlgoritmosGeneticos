@@ -13,12 +13,11 @@ import Herramientas.GeneradorInstancias;
  */
 public class Main {
     public static void main(String[] args) {
-        Individuo.instancias = GeneradorInstancias.cargarMatriz("5.txt");
-//        Individuo i = new Individuo(new int[]{0,3,4,1,2});
-        Individuo i1 = new Individuo(1, 5);
-        Individuo i2 = new Individuo(1, 5);
-        Individuo i = Cruza.asexual(i1, i2);
+        GeneradorInstancias.cargarMatriz("20.txt");
         
-        System.out.println(i);
+        Genetico g = new Genetico(15000, 40, 5000, 17, GeneradorInstancias.INSTANCIAS.length);
+        g.evolucionar();
+        
+        System.out.println();
     }
 }

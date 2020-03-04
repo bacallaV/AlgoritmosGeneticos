@@ -26,7 +26,7 @@ public class Individuo {
         this.genotipo = genotipo.clone();
         calcularFitness();
     }
-
+    
     private void inicializarAleatoriamente() {
         Random ran = new Random();
         for(int i=0; i<this.genotipo.length;i++){

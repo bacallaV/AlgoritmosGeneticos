@@ -16,7 +16,6 @@ import java.util.Random;
 public class Individuo {
     private int[] genotipo;
     private int fitness;
-    public static int instancias[][];
     
     public Individuo(int ciudadInicial, int numeroCiudades){
         this.genotipo = new int[numeroCiudades];
@@ -51,14 +50,19 @@ public class Individuo {
     }
 
     public void calcularFitness() {
-        if(instancias==null){
+        if(GeneradorInstancias.INSTANCIAS==null){
             return;
         }
+        this.fitness = 0;
         //Recorremos el genotipo para recuperar las posiciones dentro de las instancias y acumularlas
         for (int i = 0; i < this.genotipo.length-1 ; i++)
-            this.fitness+=instancias[this.genotipo[i]][this.genotipo[i+1]];
+            this.fitness+=GeneradorInstancias.INSTANCIAS[this.genotipo[i]][this.genotipo[i+1]];
         //Sumamos el camino de regreso a casa
-        this.fitness+=instancias[this.genotipo[this.genotipo.length-1]][this.genotipo[0]];
+        this.fitness+=GeneradorInstancias.INSTANCIAS[this.genotipo[this.genotipo.length-1]][this.genotipo[0]];
+    }
+    
+    public static int compare(Individuo ind1, Individuo ind2){
+        return Integer.compare(ind1.getFitness(), ind2.getFitness());
     }
     
     @Override
@@ -76,12 +80,18 @@ public class Individuo {
         return aux;
     }
 
+    /* Getters & Setters */
+    
     public int[] getGenotipo() {
         return genotipo;
     }
 
     public int getFitness() {
         return fitness;
+    }
+
+    public void setGenotipo(int[] genotipo) {
+        this.genotipo = genotipo;
     }
     
 }

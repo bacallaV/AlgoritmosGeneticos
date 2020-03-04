@@ -23,7 +23,8 @@ import javax.swing.JOptionPane;
  * @author valdo
  */
 public class GeneradorInstancias {
-    
+    public static int INSTANCIAS[][];
+        
     public static int[][] generarMatriz(int numCiudades, int Ran){
         int matriz[][] = new int[numCiudades][numCiudades];
         
@@ -118,6 +119,8 @@ public class GeneradorInstancias {
             
         }
         
+        INSTANCIAS = matriz;
+        
         return matriz;
     }
     
@@ -159,6 +162,8 @@ public class GeneradorInstancias {
                     "ADVERTENCIA!!!", JOptionPane.WARNING_MESSAGE);
             
         }
+        
+        INSTANCIAS = matriz;
         
         return matriz;
     }
