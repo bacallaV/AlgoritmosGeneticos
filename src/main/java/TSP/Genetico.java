@@ -5,11 +5,6 @@
  */
 package TSP;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,16 +21,16 @@ public class Genetico {
         this.pMuta = pMuta;
         //Generamos la poblacion inicial de manera aleatoria
         this.pobActual = new Poblacion(tamPob, ciudadInicial, numCiudades);
-        this.mejor = new Individuo(this.pobActual.getPoblacion().get(0).getGenotipo());
     }
     
     public void evolucionar(){
+        this.mejor = Seleccion.porTorneo(this.pobActual);
         //Se generan las nuevas poblaciones
         for(int g = 0; g < this.numG; g++){
             Poblacion nueva = new Poblacion();
             for(int i=0; i<this.pobActual.getPoblacion().size(); i++){
                 //Proceso de seleccion
-                Individuo madre = Seleccion.aleatoria(pobActual);
+                Individuo madre = Seleccion.porTorneo(pobActual);
                 Individuo padre = Seleccion.aleatoria(pobActual);
                 //Proceso de cruza
                 Individuo hijo;
@@ -51,39 +46,47 @@ public class Genetico {
                     this.mejor.calcularFitness();
                 }
             }
-                System.out.println("Generacion: " + g + " - Mejor:" + this.mejor);
             //Actualizar la poblacion actual
             this.pobActual = new Poblacion(nueva);
+            
+            System.out.println("Generacion: "+g+" Mejor: "+this.mejor);
         }
-        guardarMejor();
     }
     
-    private void guardarMejor(){
-        File f;
-        FileWriter w;
-        BufferedWriter bw;
-        PrintWriter wr;
-    
-        try{
-            f=new File( this.mejor.getGenotipo().length + "_" + this.mejor.getGenotipo()[0] + "_mejorIndividuo.txt");
-            w=new FileWriter(f);
-            bw=new BufferedWriter (w);
-            wr=new PrintWriter(bw);
-            
-            for (int i = 0; i < this.mejor.getGenotipo().length; i++) {
-                    if(i==this.mejor.getGenotipo().length-1)
-                        wr.println(this.mejor.getGenotipo()[i]);
-                    else
-                        wr.print(this.mejor.getGenotipo()[i]+",");
+    public void evolucionar(Individuo mejor){
+        //Seteamos al mejor y también dentro de la población
+        this.mejor = mejor;
+        this.pobActual.getPoblacion().set(0, this.mejor);
+        //Se generan las nuevas poblaciones
+        for(int g = 0; g < this.numG; g++){
+            Poblacion nueva = new Poblacion();
+            for(int i = 0; i < this.pobActual.getPoblacion().size(); i++){
+                //Proceso de seleccion
+                Individuo madre = Seleccion.porTorneo(pobActual);
+                Individuo padre = Seleccion.aleatoria(pobActual);
+                //Proceso de cruza
+                Individuo hijo;
+                    hijo = Cruza.asexual(padre, madre);
+                //Proceso de mutacion
+                if(Math.random()*100<this.pMuta)
+                    Muta.aleatoria(hijo);
+                //El hijo generado se agrega a la nueva poblacion
+                nueva.getPoblacion().add(hijo);
+                
+                if(hijo.getFitness() < this.mejor.getFitness()){
+                    this.mejor.setGenotipo(hijo.getGenotipo());
+                    this.mejor.calcularFitness();
+                }
             }
+            //Actualizar la poblacion actual
+            this.pobActual = new Poblacion(nueva);
             
-            wr.print(this.mejor.getFitness());
-            
-            wr.close();
-            bw.close();
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null,"Ha sucedido un error. "+ e);
-        } 
+            System.out.println("Generacion: "+g+" Mejor: "+this.mejor);
+        }
+    }
+
+    public Individuo getMejor() {
+        return mejor;
     }
     
 }

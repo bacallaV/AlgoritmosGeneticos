@@ -67,15 +67,15 @@ public class Individuo {
     
     @Override
     public String toString() {
-//        String aux = "";
-        String aux = "Genotipo: ";
-        
-        for(int i=0; i<this.genotipo.length; i++){
-            aux+=String.valueOf(this.genotipo[i]);
-            if(i!=this.genotipo.length-1)
-                aux+=" - ";
-        }
-        aux+="\nFitness: "+this.fitness+"\n";
+        String aux = "";
+//        String aux = "Genotipo: ";
+//        
+//        for(int i=0; i<this.genotipo.length; i++){
+//            aux+=String.valueOf(this.genotipo[i]);
+//            if(i!=this.genotipo.length-1)
+//                aux+=" - ";
+//        }
+        aux+="Fitness: "+this.fitness;
         
         return aux;
     }
@@ -91,7 +91,10 @@ public class Individuo {
     }
 
     public void setGenotipo(int[] genotipo) {
-        this.genotipo = genotipo;
+        this.genotipo = new int[genotipo.length];
+        for (int i = 0; i < genotipo.length; i++) {
+            this.genotipo[i] = genotipo[i];
+        }
     }
     
 }

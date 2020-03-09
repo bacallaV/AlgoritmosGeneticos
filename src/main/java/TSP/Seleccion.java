@@ -21,9 +21,12 @@ public class Seleccion {
     }
 
     public static Individuo porTorneo(Poblacion poblacion){
+        Individuo ind = new Individuo(poblacion.getPoblacion().get(0).getGenotipo());
         //Retorna el mejor individuo de la poblacion
-        Poblacion aux = new Poblacion(poblacion.ordenar());
-        Individuo ind = new Individuo((aux.getPoblacion().get(aux.getPoblacion().size()-1).getGenotipo()));
+        for (Individuo i: poblacion.getPoblacion()) {
+            if(i.getFitness() < ind.getFitness())
+                ind = new Individuo(i.getGenotipo());
+        }
         return ind;
     }
 }

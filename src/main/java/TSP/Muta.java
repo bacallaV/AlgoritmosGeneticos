@@ -26,5 +26,7 @@ public class Muta {
         aux = i.getGenotipo()[pos1];
         i.getGenotipo()[pos1] = i.getGenotipo()[pos2];
         i.getGenotipo()[pos2] = aux;
+        
+        i.calcularFitness();
     }
 }
