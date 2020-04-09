@@ -5,7 +5,7 @@
  */
 package TSP;
 
-import Herramientas.GeneradorInstancias;
+import Herramientas.GeneradorInstanciasTSP;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -50,20 +50,41 @@ public class Individuo {
     }
 
     public void calcularFitness() {
-        if(GeneradorInstancias.INSTANCIAS==null){
+        if(GeneradorInstanciasTSP.INSTANCIAS==null){
             return;
         }
         this.fitness = 0;
         //Recorremos el genotipo para recuperar las posiciones dentro de las instancias y acumularlas
         for (int i = 0; i < this.genotipo.length-1 ; i++)
-            this.fitness+=GeneradorInstancias.INSTANCIAS[this.genotipo[i]][this.genotipo[i+1]];
+            this.fitness+=GeneradorInstanciasTSP.INSTANCIAS[this.genotipo[i]][this.genotipo[i+1]];
         //Sumamos el camino de regreso a casa
-        this.fitness+=GeneradorInstancias.INSTANCIAS[this.genotipo[this.genotipo.length-1]][this.genotipo[0]];
+        this.fitness+=GeneradorInstanciasTSP.INSTANCIAS[this.genotipo[this.genotipo.length-1]][this.genotipo[0]];
     }
     
     public static int compare(Individuo ind1, Individuo ind2){
         return Integer.compare(ind1.getFitness(), ind2.getFitness());
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Individuo other = (Individuo) obj;
+        for (int i = 0; i < other.genotipo.length; i++) {
+            if(other.genotipo[i]!=this.genotipo[i])
+                return false;
+        }
+        return true;
+    }
+    
+    
     
     @Override
     public String toString() {

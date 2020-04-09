@@ -5,7 +5,7 @@
  */
 package TSP;
 
-import Herramientas.GeneradorInstancias;
+import Herramientas.GeneradorInstanciasTSP;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -40,7 +40,7 @@ public class Herramientas {
             wr=new PrintWriter(bw);
             
             //NUMERO DE CIUDADES
-            wr.println(GeneradorInstancias.INSTANCIAS.length);
+            wr.println(GeneradorInstanciasTSP.INSTANCIAS.length);
             
             //CIUDAD INICIAL
             wr.println(mejor.getGenotipo()[0]);
@@ -65,7 +65,7 @@ public class Herramientas {
     
     public static Individuo cargarIndividuo(String ruta){
         String linea;
-        LinkedList<String> lineas = new LinkedList();
+        LinkedList<String> lineas = new LinkedList<>();
         Individuo individuo = null;
         
         try {

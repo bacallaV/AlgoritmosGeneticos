@@ -5,7 +5,6 @@
  */
 package binario;
 
-import java.util.LinkedList;
 
 /**
  *

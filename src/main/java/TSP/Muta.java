@@ -29,4 +29,24 @@ public class Muta {
         
         i.calcularFitness();
     }
+    
+    public static void aleatoriaTres(Individuo i){
+        int aux;
+        Random ran = new Random();
+        int pos1, pos2, pos3;
+        
+        //Creamos dos posiciones aleatorias entre el 1 y la longitud del genotipo, que no sean iguales
+        do{
+            pos1 = ran.nextInt(i.getGenotipo().length-1)+1;
+            pos2 = ran.nextInt(i.getGenotipo().length-1)+1;
+            pos3 = ran.nextInt(i.getGenotipo().length-1)+1;
+        }while(pos1==pos2);
+        //Hacemos el intercambio de ciudades en el genotipo
+        aux = i.getGenotipo()[pos1];
+        i.getGenotipo()[pos1] = i.getGenotipo()[pos2];
+        i.getGenotipo()[pos2] = i.getGenotipo()[pos3];
+        i.getGenotipo()[pos3] = aux;
+        
+        i.calcularFitness();
+    }
 }

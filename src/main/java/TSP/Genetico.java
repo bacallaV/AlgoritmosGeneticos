@@ -21,10 +21,10 @@ public class Genetico {
         this.pMuta = pMuta;
         //Generamos la poblacion inicial de manera aleatoria
         this.pobActual = new Poblacion(tamPob, ciudadInicial, numCiudades);
+        this.mejor = Seleccion.porTorneo(this.pobActual);
     }
     
     public void evolucionar(){
-        this.mejor = Seleccion.porTorneo(this.pobActual);
         //Se generan las nuevas poblaciones
         for(int g = 0; g < this.numG; g++){
             Poblacion nueva = new Poblacion();
@@ -36,8 +36,14 @@ public class Genetico {
                 Individuo hijo;
                     hijo = Cruza.asexual(padre, madre);
                 //Proceso de mutacion
-                if(Math.random()*100<this.pMuta)
-                    Muta.aleatoria(hijo);
+                //Proceso de mutacion
+                double numRan = Math.random()*100;
+                if(numRan < this.pMuta){
+                    if (numRan < (this.pMuta/2))
+                        Muta.aleatoriaTres(hijo);
+                    else
+                        Muta.aleatoria(hijo);
+                }
                 //El hijo generado se agrega a la nueva poblacion
                 nueva.getPoblacion().add(hijo);
                 
@@ -46,10 +52,18 @@ public class Genetico {
                     this.mejor.calcularFitness();
                 }
             }
+            
+            System.out.println(
+                    "Generacion: "+g+
+                    " Casi Mejor: "+Seleccion.porTorneo(nueva).getFitness()+
+                    " Mejor: "+this.mejor.getFitness());
+            
+            if (!nueva.getPoblacion().contains(this.mejor)) {
+                nueva.getPoblacion().set(0, this.mejor);
+            }
+            
             //Actualizar la poblacion actual
             this.pobActual = new Poblacion(nueva);
-            
-            System.out.println("Generacion: "+g+" Mejor: "+this.mejor);
         }
     }
     
@@ -57,32 +71,8 @@ public class Genetico {
         //Seteamos al mejor y también dentro de la población
         this.mejor = mejor;
         this.pobActual.getPoblacion().set(0, this.mejor);
-        //Se generan las nuevas poblaciones
-        for(int g = 0; g < this.numG; g++){
-            Poblacion nueva = new Poblacion();
-            for(int i = 0; i < this.pobActual.getPoblacion().size(); i++){
-                //Proceso de seleccion
-                Individuo madre = Seleccion.porTorneo(pobActual);
-                Individuo padre = Seleccion.aleatoria(pobActual);
-                //Proceso de cruza
-                Individuo hijo;
-                    hijo = Cruza.asexual(padre, madre);
-                //Proceso de mutacion
-                if(Math.random()*100<this.pMuta)
-                    Muta.aleatoria(hijo);
-                //El hijo generado se agrega a la nueva poblacion
-                nueva.getPoblacion().add(hijo);
-                
-                if(hijo.getFitness() < this.mejor.getFitness()){
-                    this.mejor.setGenotipo(hijo.getGenotipo());
-                    this.mejor.calcularFitness();
-                }
-            }
-            //Actualizar la poblacion actual
-            this.pobActual = new Poblacion(nueva);
-            
-            System.out.println("Generacion: "+g+" Mejor: "+this.mejor);
-        }
+        //Llamamos al método evolucionar
+        evolucionar();
     }
 
     public Individuo getMejor() {
