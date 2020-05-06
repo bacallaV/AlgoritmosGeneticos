@@ -7,8 +7,14 @@ public class Individuo {
 
     /* Contructores */
     // Inicializar aleatoriamente
-    public Individuo( int tamGenotipo ) {
-        this.genotipo = new boolean[tamGenotipo+1];
+    public Individuo() {
+        // Validacion por si aun no se cargan las instancias
+        if( Herramientas.tamGenotipo == -1 )
+            return;
+        // tamGenotipo + 1, porque al leer el .txt, el rango de valores es 100
+        // siendo que el 100 es inclusivo. Entonces, en el genetipo necesitamos
+        // el rango [0-100] y no [0-99].
+        this.genotipo = new boolean[ Herramientas.tamGenotipo + 1 ];
         this.fitness = 0;
         inicializarAleatoriamente();
         calcularFitness();
@@ -20,6 +26,8 @@ public class Individuo {
 
         for (int i = 0; i < genotipo.length; i++)
             this.genotipo[i] = genotipo[i];
+        
+        calcularFitness();
     }
 
     // Inicializar a partir de otro Individuo
@@ -28,6 +36,8 @@ public class Individuo {
 
         for (int i = 0; i < ind.genotipo.length; i++)
             this.genotipo[i] = ind.genotipo[i];
+        
+        calcularFitness();
     }
 
     private void inicializarAleatoriamente() {
@@ -86,6 +96,29 @@ public class Individuo {
         aux += "]\n" + this.fitness;
         
         return aux;
+    }
+
+    public static int compare(Individuo ind1, Individuo ind2){
+        return Integer.compare(ind1.getFitness(), ind2.getFitness());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Individuo other = (Individuo) obj;
+        for (int i = 0; i < other.genotipo.length; i++) {
+            if(other.genotipo[i]!=this.genotipo[i])
+                return false;
+        }
+        return true;
     }
 
     /* Getters & Setters */
