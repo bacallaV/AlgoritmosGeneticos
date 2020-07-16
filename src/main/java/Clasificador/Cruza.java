@@ -1,16 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package NSAT;
+package Clasificador;
 
-import java.util.Random;
-
-/**
- *
- * @author valdo
- */
 public class Cruza {
     private static int[] mascara;
 
@@ -18,15 +7,15 @@ public class Cruza {
         if( mascara == null )
             generarMascaraAleatoria();
 
-        boolean genotipo1 [] = new boolean[padre.getGenotipo().length];
-        boolean genotipo2 [] = new boolean[madre.getGenotipo().length];
+        int genotipo1 [] = new int[ padre.getGenotipo().length ];
+        int genotipo2 [] = new int[ madre.getGenotipo().length ];
         
         //Recorremos la mascara de cruza
         for(int i = 0; i < mascara.length; i++) {
             if( mascara[i] == 1 ){ // Padre
                 genotipo1[i] = padre.getGenotipo()[i];
                 genotipo2[i] = madre.getGenotipo()[i];
-            }else{ // Madre
+            } else { // Madre
                 genotipo1[i] = madre.getGenotipo()[i];
                 genotipo2[i] = padre.getGenotipo()[i];              
             }
@@ -41,10 +30,13 @@ public class Cruza {
     }
 
     public static void generarMascaraAleatoria() {
-        mascara = new int[ Herramientas.tamGenotipo ];
-        Random ran = new Random();
+        mascara = new int[ Herramientas.instancias.get(0).getVector().length ];
+
         for (int i = 0; i < mascara.length; i++) {
-            mascara[i] = ran.nextInt(2);
+            double ran = Math.random();
+
+            if( ran > 0.5 )
+                mascara[i] = 1;
         }
     }
 }

@@ -1,4 +1,4 @@
-package NSAT;
+package Clasificador;
 
 import java.util.Random;
 
@@ -14,23 +14,7 @@ public class Seleccion {
 
         return mejor;
     }
-    public static Individuo segundoMejor( Poblacion pob ) {
-        // Asumimos que el primero es el mejor
-        Individuo mejor = new Individuo( pob.getPoblacion().get(0) );
-        Individuo segundoMejor = new Individuo( pob.getPoblacion().get(1) );
-
-        for ( Individuo i: pob.getPoblacion() ) {
-            if( i.getFitness() > mejor.getFitness() ) {
-                segundoMejor = new Individuo( mejor );
-                mejor = new Individuo( i );
-            }
-            else if( i.getFitness() > segundoMejor.getFitness() )
-                segundoMejor = new Individuo( i );
-        }
-
-        return mejor;
-    }
-
+    
     public static Individuo aleatoria( Poblacion pob ) {
         Individuo aleatorio;
 

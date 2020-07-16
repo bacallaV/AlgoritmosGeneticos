@@ -1,4 +1,4 @@
-package NSAT;
+package Clasificador;
 
 import java.util.Random;
 
@@ -7,7 +7,10 @@ public class Muta {
         Random ran = new Random();
 
         int pos = ran.nextInt( ind.getGenotipo().length );
-        ind.getGenotipo()[ pos ] = !ind.getGenotipo()[ pos ];
+        if( ind.getGenotipo()[ pos ] == 0 )
+            ind.getGenotipo()[ pos ] = 1;
+        else
+            ind.getGenotipo()[ pos ] = 0;
 
         ind.calcularFitness();
     }
